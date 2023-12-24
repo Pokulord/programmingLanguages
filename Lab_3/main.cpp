@@ -4,18 +4,18 @@
 #include <dirent.h>
 #include <sstream>
 
-/* dirent.h нужен
-для работы с каталогами
+/* dirent.h РЅСѓР¶РµРЅ
+РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєР°С‚Р°Р»РѕРіР°РјРё
 */
-
-// Функция уиножения
-void multiPly(const std::string&filename, std::string path)
+using namespace std;
+// Р¤СѓРЅРєС†РёСЏ СѓРёРЅРѕР¶РµРЅРёСЏ
+void multiPly(const string&filename, string path)
 {
-    std:: ifstream inputFile(filename);
+    ifstream inputFile(filename);
     if (inputFile.is_open()){
-        std::string line;
-        std::ofstream fileOut(path + "\\mnoz.txt");
-        fileOut << "Содержимое файла " << filename  << ", умноженное на 2" << "\n---------------" << std::endl ;
+        string line;
+        ofstream fileOut(path + "\\mnoz.txt");
+        fileOut << "File " << filename  << ", * 2 =" << "\n---------------" << std::endl ;
         while (std::getline(inputFile, line))
         {
             std::istringstream iss(line);
@@ -27,33 +27,33 @@ void multiPly(const std::string&filename, std::string path)
 
 
         }
-        std::cout << "Файл сохранён" << std::endl ;
+        std::wcout << L"Р¤Р°Р№Р» СЃРѕС…СЂР°РЅС‘РЅ" << std::endl ;
         inputFile.close();
         fileOut.close();
 
     }
 
     else {
-        std::cout << "Файл не открыт" << std::endl;
+        std::wcout << L"Р¤Р°Р№Р» РЅРµ РѕС‚РєСЂС‹С‚" << std::endl;
     }
 }
 
 int main() {
     setlocale(LC_ALL, "");
-    // Путь к файлам
+    // РџСѓС‚СЊ Рє С„Р°Р№Р»Р°Рј
     std::string path = "Files_to_Read\\";
     DIR* dir;
     struct dirent *ent;
-    // Проверяем, пустой ли каталог
+    // РџСЂРѕРІРµСЂСЏРµРј, РїСѓСЃС‚РѕР№ Р»Рё РєР°С‚Р°Р»РѕРі
     if ((dir = opendir(path.c_str())) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
             std::string filename = ent->d_name;
-            // Выполняем чтение файла, если он с расширением .txt
+            // Р’С‹РїРѕР»РЅСЏРµРј С‡С‚РµРЅРёРµ С„Р°Р№Р»Р°, РµСЃР»Рё РѕРЅ СЃ СЂР°СЃС€РёСЂРµРЅРёРµРј .txt
             if (filename.length() > 4 && filename.substr(filename.length()-4) == ".txt") {
-                std::cout << "Содержимое файла: " << filename << ": " << std::endl;
-                // Считываем файлы из каталога
+                cout << "File : " << filename << ": " << endl;
+                // РЎС‡РёС‚С‹РІР°РµРј С„Р°Р№Р»С‹ РёР· РєР°С‚Р°Р»РѕРіР°
                 std::ifstream file(path + "/" + filename);
-                // Задаём строку
+                // Р—Р°РґР°С‘Рј СЃС‚СЂРѕРєСѓ
                 std::string line;
                 while (std::getline(file, line)) {
                     std::cout << line << std::endl;
@@ -65,10 +65,10 @@ int main() {
         }
         closedir(dir);
     } else {
-        std::cerr << "Ошибка при открытии каталога - возможно, неправильно указан путь" << std::endl;
+        std::wcout << L"РћС€РёР±РєР° РїСЂРё РѕС‚РєСЂС‹С‚РёРё РєР°С‚Р°Р»РѕРіР° - РІРѕР·РјРѕР¶РЅРѕ, РЅРµРїСЂР°РІРёР»СЊРЅРѕ СѓРєР°Р·Р°РЅ РїСѓС‚СЊ" << std::endl;
         return EXIT_FAILURE;
     }
-    // Имя файла, содержимое которого необходимо умножить на 2
+    // РРјСЏ С„Р°Р№Р»Р°, СЃРѕРґРµСЂР¶РёРјРѕРµ РєРѕС‚РѕСЂРѕРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕ СѓРјРЅРѕР¶РёС‚СЊ РЅР° 2
     multiPly(path + "\\1.txt", path);
     return 0;
 }
