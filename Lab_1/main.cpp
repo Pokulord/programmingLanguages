@@ -19,14 +19,11 @@ int main()
     // Задание 2
     wcout << L"\nВведите число для 2 задания: " << endl;
     cin >> num;
-
+    wcout << L"Четные числа в диапазоне " << num << endl;
     while (i<num)
     {
         if (i%2 == 0) {
             cout<<i<<' ';
-        }
-        else{
-            cout<<"b"<<' ';
         }
         i++;
     }
