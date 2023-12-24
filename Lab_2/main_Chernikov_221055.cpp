@@ -23,7 +23,7 @@ void printMatrix(int matrix[5][5], int size)
 
 void change_minus_elems(int matrix[5][5], int size)
 {
-    cout << "Èçíà÷àëüíàÿ ìàòðèöà" << endl;
+    wcout << L"Ð˜Ð·Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð°Ñ Ð¼Ð°Ñ‚Ñ€Ð¸Ñ†Ð°" << endl;
     printMatrix(matrix,5);
     for (int index_1 = 0 ; index_1 < size ; index_1++)
     {
@@ -34,7 +34,7 @@ void change_minus_elems(int matrix[5][5], int size)
             }
         }
     }
-    cout << "Ìàòðèöà áåç îòðèöàòåëüíûõ ýëåìåíòîâ :" << endl;
+    wcout << L"ÐœÐ°Ñ‚Ñ€Ð¸Ñ†Ð° Ð±ÐµÐ· Ð¾Ñ‚Ñ€Ð¸Ñ†Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² :" << endl;
     printMatrix(matrix,5);
 }
 
@@ -47,7 +47,7 @@ void summOfString(int matrix[5][5], int size)
         {
             sum = sum + matrix[ind_1][ind_2];
         }
-        cout << "Ñóììà â ñòðîêå " << ind_1 + 1 << " = " << sum << endl;
+        wcout << L"Ð¡ÑƒÐ¼Ð¼Ð° Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ " << ind_1 + 1 << " = " << sum << endl;
         sum = 0;
     }
 }
@@ -55,38 +55,38 @@ void summOfString(int matrix[5][5], int size)
 int main()
 {
     setlocale(LC_ALL,"Russian");
- //Çàäàíèå 1
- cout << "Ìàññèâ 1 :" << endl;
+ //Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 1
+ wcout << L"ÐœÐ°ÑÑÐ¸Ð² 1 :" << endl;
  int arr_1[10] = {2,55,6,66,67,4,2,90,55,56};
  printArray(arr_1,10);
  cout << "\n";
- //Çàäàíèå 2
+ //Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 2
  int arr_2[10] ;
- cout << "Ìàññèâ 2 :" << endl;
+ wcout << L"ÐœÐ°ÑÑÐ¸Ð² 2 :" << endl;
  for (int index = 0; index < 10 ; index++)
  {
      arr_2[index] = rand() % (10+10+1) - 10;
  }
  printArray(arr_2,10);
  cout << "\n";
- //Çàäàíèå 3
+ //Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 3
 
  int arr_3[5], element_by_index;
  for (int index = 0; index<5; index ++)
  {
-     cout << "Ïîæàëóéñòà, ââåäèòå " << index+1 << " ýëåìåíò" << endl;
+     wcout << L"ÐŸÐ¾Ð¶Ð°Ð»ÑƒÐ¹ÑÑ‚Ð°, Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ " << index+1 << L" ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚" << endl;
      cin >> element_by_index ;
      arr_3[index] = element_by_index;
  }
- cout << "Ìàññèâ 3 : " << endl;
+ wcout << L"ÐœÐ°ÑÑÐ¸Ð² 3 : " << endl;
  printArray(arr_3,5);
 
 
- // Çàäàíèå 4
+ // Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 4
 
- cout << "\nÈñõîäíûé ìàññèâ 4:"<< endl;
+ wcout << L"\nÐ˜ÑÑ…Ð¾Ð´Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ¸Ð² 4:"<< endl;
  printArray(arr_2, 10);
- cout << "\nÌàññèâ ïîñëå ïðîâåðêè íà ÷¸òíîñòü/íå÷¸òíîñòü" << endl;
+ wcout << L"\nÐœÐ°ÑÑÐ¸Ð² Ð¿Ð¾ÑÐ»Ðµ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ Ð½Ð° Ñ‡Ñ‘Ñ‚Ð½Ð¾ÑÑ‚ÑŒ/Ð½ÐµÑ‡Ñ‘Ñ‚Ð½Ð¾ÑÑ‚ÑŒ" << endl;
  for (int index = 0 ; index < 10; index++)
  {
      if (arr_2[index] % 2 == 0){
@@ -99,7 +99,7 @@ int main()
  printArray(arr_2,10);
 
 
- // Çàäàíèå 5
+ // Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 5
 
  int matrix_1[5][5];
 
@@ -111,7 +111,7 @@ int main()
      }
  }
 
- cout << "\nÌàòðèöà 1" << endl;
+ wcout << L"\nÐœÐ°Ñ‚Ñ€Ð¸Ñ†Ð° 1" << endl;
 
  printMatrix(matrix_1, 5);
 
