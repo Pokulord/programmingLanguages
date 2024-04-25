@@ -4,51 +4,61 @@
 using namespace std;
 
 enum class Statuses : int {
-	Active,
-	Paused,
-	Not_Active
+	Active = 1,
+	Paused = 2,
+	Not_Active = 3,
+	Unknown = 4
 };
 enum class Muz_genres : int
 {
-	Grunge,
-	Metal,
-	Post_Punk,
-	Electronic
+	Grunge=1,
+	Metal=2,
+	Post_Punk=3,
+	Electronic=4,
+	Unknown = 0
 };
 
-
+// Basic class
 class Default_band {
 protected:
-	Default_band();
-	string band_name = "Noname";
-	int foundation_year;
+    int foundation_year = 0;
+    string band_name;
 	int albums_count = 0;
-	Muz_genres genre;
-	Statuses band_status;
-	int Totally_listens;
+	Muz_genres Genre = Muz_genres::Unknown;
+	Statuses band_status = Statuses::Unknown;
+	int Totally_listens = 0;
+    Default_band()
+    {
+        band_name = "Noname";
+    }
 
 public:
-	virtual string WhatSBandName() const { return band_name; }
-	virtual void ChangeBandName() = 0 ;
+	virtual void WhatSBandName() const { cout << L"ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð³Ñ€ÑƒÐ¿Ð¿Ñ‹ :" << band_name; }
+//	virtual void ChangeBandName(string new_name) = 0 ;
 	virtual Statuses GetBandStatus() const { return band_status; }
 	virtual void PlaySong() const = 0;
-	virtual void ChangeGenre() = 0;
-	virtual Muz_genres WhatGenre() const = 0;
+//	virtual void ChangeGenre() = 0;
+//	virtual Muz_genres WhatGenre() const = 0;
 
 };
 
+
+// Ð“Ñ€ÑƒÐ¿Ð¿Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð²Ñ‹ÑÑ‚ÑƒÐ¿Ð°ÐµÑ‚ Ð² ÑÑ‚Ð¸Ð»Ðµ Grunge
 class Grunge_band : public Default_band {
 protected:
-	Grunge_band();
 public:
-	void PlaySong() {
-		cout << "Èãðàåì, íî ãðÿçíî. Ïîëó÷àþòñÿ êëàññíûå ïåñíè";
+    Grunge_band() : Default_band() {Genre = Muz_genres::Grunge ;};
+//    void ChangeBandName(string new_name)
+//    {
+//        band_name = new_name ;
+//    }
+	void PlaySong() const override {
+		cout << "Ð˜Ð³Ñ€Ð°ÐµÐ¼, Ð½Ð¾ Ð³Ñ€ÑÐ·Ð½Ð¾. ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÑŽÑ‚ÑÑ ÐºÐ»Ð°ÑÑÐ½Ñ‹Ðµ Ð¿ÐµÑÐ½Ð¸";
 	};
-	void ShootInHead() {
-		cout << "Óðà! ß âñòðå÷óñü ñ Êóðòîì Êîáåéíîì!!!!" << endl;
-	};
-	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
-
+//	void ShootInHead() const {
+//		cout << "Ð£Ñ€Ð°! Ð¯ Ð²ÑÑ‚Ñ€ÐµÑ‡ÑƒÑÑŒ Ñ ÐšÑƒÑ€Ñ‚Ð¾Ð¼ ÐšÐ¾Ð±ÐµÐ¹Ð½Ð¾Ð¼!!!!" << endl;
+//	};
+//	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
 };
 
 
@@ -57,12 +67,13 @@ protected:
 	Metal_band();
 public:
 	void PlaySong() {
-		cout << "Ðóáèì â ïîíèæåííîì ñòðîå. Ãðîìêî êðè÷èì â ïðîöåññå." << endl;
+		cout << "Ð ÑƒÐ±Ð¸Ð¼ Ð² Ð¿Ð¾Ð½Ð¸Ð¶ÐµÐ½Ð½Ð¾Ð¼ ÑÑ‚Ñ€Ð¾Ðµ. Ð“Ñ€Ð¾Ð¼ÐºÐ¾ ÐºÑ€Ð¸Ñ‡Ð¸Ð¼ Ð² Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐµ." << endl;
 
 	};
-	
+
 	void GetDrunk() {
-		cout << "Âñå ìåòàëëèñòû ïüþò. Êîíå÷íî æå, ÷àé ñ ëèìîí÷èêîì!" << endl; 
+		cout << "Ð’ÑÐµ Ð¼ÐµÑ‚Ð°Ð»Ð»Ð¸ÑÑ‚Ñ‹ Ð¿ÑŒÑŽÑ‚. ÐšÐ¾Ð½ÐµÑ‡Ð½Ð¾ Ð¶Ðµ, Ñ‡Ð°Ð¹ Ñ Ð»Ð¸Ð¼Ð¾Ð½Ñ‡Ð¸ÐºÐ¾Ð¼!" << endl;
 	};
 };
 #endif
+
