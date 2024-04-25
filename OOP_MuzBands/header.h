@@ -34,11 +34,20 @@ protected:
 
 public:
 	virtual void WhatSBandName() const { cout << L"Название группы :" << band_name; }
-//	virtual void ChangeBandName(string new_name) = 0 ;
+	virtual void ChangeBandName(string new_name)
+	{
+	    band_name = new_name ;
+	};
 	virtual Statuses GetBandStatus() const { return band_status; }
 	virtual void PlaySong() const = 0;
-//	virtual void ChangeGenre() = 0;
-//	virtual Muz_genres WhatGenre() const = 0;
+	virtual void ChangeGenre(Muz_genres new_genre)
+	{
+	    Genre = new_genre ;
+	};
+	virtual Muz_genres WhatGenre() const
+	{
+	    return Muz_genres::Unknown ;
+	};
 
 };
 
@@ -48,17 +57,13 @@ class Grunge_band : public Default_band {
 protected:
 public:
     Grunge_band() : Default_band() {Genre = Muz_genres::Grunge ;};
-//    void ChangeBandName(string new_name)
-//    {
-//        band_name = new_name ;
-//    }
 	void PlaySong() const override {
 		cout << "Играем, но грязно. Получаются классные песни";
 	};
-//	void ShootInHead() const {
-//		cout << "Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
-//	};
-//	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
+	void ShootInHead() const {
+		cout << "Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
+	};
+	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
 };
 
 
