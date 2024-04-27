@@ -21,6 +21,7 @@ Default_band *Create_new_band(Muz_genres Genre)
     switch(Genre)
     {
         case Muz_genres::Grunge: return new Grunge_band() ;
+        case Muz_genres::Metal: return new Metal_band() ;
         default : return 0 ;
     }
 }

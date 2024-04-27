@@ -1,6 +1,7 @@
 #ifndef MUZBANDS_H
 #define MUZBANDS_H
 #include <string>
+#include "Decorators.h"
 using namespace std;
 
 enum class Statuses : int {
@@ -31,7 +32,6 @@ protected:
     {
         band_name = "Noname";
     }
-
 public:
 	virtual void WhatSBandName() const { cout << L"Название группы :" << band_name; }
 	virtual void ChangeBandName(string new_name)
@@ -52,6 +52,8 @@ public:
 };
 
 
+typedef Default_band *BandPtr ;
+
 // Группа, которая выступает в стиле Grunge
 class Grunge_band : public Default_band {
 protected:
@@ -66,12 +68,12 @@ public:
 	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
 };
 
-
+// Группа , которая выступает в жанре Metal
 class Metal_band : public Default_band {
 protected:
-	Metal_band();
 public:
-	void PlaySong() {
+    Metal_band() : Default_band() {Genre = Muz_genres::Metal ;};
+	void PlaySong() const override {
 		cout << "Рубим в пониженном строе. Громко кричим в процессе." << endl;
 
 	};
@@ -79,6 +81,16 @@ public:
 	void GetDrunk() {
 		cout << "Все металлисты пьют. Конечно же, чай с лимончиком!" << endl;
 	};
+};
+
+
+// Контейнеры
+
+class Container
+{
+public:
+    virtual void AddBand (BandPtr NewBand) = 0 ;
+    virtual Iterator<BandPtr> *GetIterator() = 0;
 };
 #endif
 
