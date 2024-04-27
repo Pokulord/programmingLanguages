@@ -60,10 +60,10 @@ protected:
 public:
     Grunge_band() : Default_band() {Genre = Muz_genres::Grunge ;};
 	void PlaySong() const override {
-		cout << "Играем, но грязно. Получаются классные песни";
+		wcout << L"Играем, но грязно. Получаются классные песни";
 	};
 	void ShootInHead() const {
-		cout << "Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
+		wcout << L"Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
 	};
 	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
 };
@@ -74,23 +74,76 @@ protected:
 public:
     Metal_band() : Default_band() {Genre = Muz_genres::Metal ;};
 	void PlaySong() const override {
-		cout << "Рубим в пониженном строе. Громко кричим в процессе." << endl;
+		wcout << L"Рубим в пониженном строе. Громко кричим в процессе." << endl;
 
 	};
 
 	void GetDrunk() {
-		cout << "Все металлисты пьют. Конечно же, чай с лимончиком!" << endl;
+		wcout << L"Все металлисты пьют. Конечно же, чай с лимончиком!" << endl;
 	};
 };
 
+class Post_Punk_band : public Default_band
+{
+protected:
+public:
+    Post_Punk_band() : Default_band() {Genre = Muz_genres::Post_Punk ;};
+    void PlaySong() const override
+    {
+       wcout << L"Играем крайне атмосферную музыку" << endl ;
+    }
 
+    void SoAtmosphere() const
+    {
+        wcout << L"Музыка оказалась настолько атмфосферной, что слушатель проникся" << endl;
+    }
+};
+
+// Итераторы для обхода контейнеров
+
+class FContainerIterator : public Iterator<BandPtr>
+{
+private:
+    const list <BandPtr> *FBandCont ;
+    list <BandPtr>::const_iterator Iterator;
+public:
+    void First(){Iterator = FBandCont->begin();}
+    void Next() {Iterator++;}
+    bool IsDone() const {return Iterator == FBandCont->end();}
+    BandPtr GetCurrent() const {return *Iterator ;}
+    FContainerIterator(const list<BandPtr> *Fbandcont)
+    {
+        FBandCont = Fbandcont;
+        Iterator = FBandCont->begin();
+    }
+
+};
 // Контейнеры
 
 class Container
 {
 public:
     virtual void AddBand (BandPtr NewBand) = 0 ;
+    virtual int GetCount() const = 0 ;
     virtual Iterator<BandPtr> *GetIterator() = 0;
+};
+
+class FContainer : public Container
+{
+private:
+    list<BandPtr> BandFCont;
+
+public:
+    void AddBand(BandPtr New_band)
+    {
+        BandFCont.push_back(New_band);
+    }
+    int GetCount() const {return BandFCont.size() ;}
+
+    Iterator<BandPtr> *GetIterator()
+    {
+        return new FContainerIterator(&BandFCont);
+    };
 };
 #endif
 

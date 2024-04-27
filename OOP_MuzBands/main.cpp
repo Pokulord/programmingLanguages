@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include "header.h"
 using namespace std;
 
@@ -22,6 +23,7 @@ Default_band *Create_new_band(Muz_genres Genre)
     {
         case Muz_genres::Grunge: return new Grunge_band() ;
         case Muz_genres::Metal: return new Metal_band() ;
+        case Muz_genres::Post_Punk: return new Post_Punk_band();
         default : return 0 ;
     }
 }
