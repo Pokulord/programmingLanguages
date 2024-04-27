@@ -48,6 +48,7 @@ public:
 	{
 	    return Muz_genres::Unknown ;
 	};
+	virtual void NoTea() = 0 ;
 
 };
 
@@ -66,11 +67,14 @@ public:
 		wcout << L"Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
 	};
 	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
+	void NoTea() {} ;
 };
 
 // Группа , которая выступает в жанре Metal
 class Metal_band : public Default_band {
 protected:
+    // А пьёт ли металлист чай
+    bool IsDrinkingTea = true ;
 public:
     Metal_band() : Default_band() {Genre = Muz_genres::Metal ;};
 	void PlaySong() const override {
@@ -78,9 +82,15 @@ public:
 
 	};
 
+	void NoTea()
+	{
+	  IsDrinkingTea = false ;
+	};
+
 	void GetDrunk() {
 		wcout << L"Все металлисты пьют. Конечно же, чай с лимончиком!" << endl;
 	};
+
 };
 
 class Post_Punk_band : public Default_band
@@ -97,6 +107,7 @@ public:
     {
         wcout << L"Музыка оказалась настолько атмфосферной, что слушатель проникся" << endl;
     }
+    void NoTea() {} ;
 };
 
 // Итераторы для обхода контейнеров
@@ -144,6 +155,36 @@ public:
     {
         return new FContainerIterator(&BandFCont);
     };
+};
+
+
+class BandTypeDecorator : public IteratorDecorator<BandPtr>
+{
+private:
+    Muz_genres TargetType;
+public:
+    BandTypeDecorator(Iterator<BandPtr> *Iterator, Muz_genres targetype) : IteratorDecorator(Iterator)
+    {
+        TargetType = targetype ;
+    }
+
+    void First()
+    {
+        Decorator->First();
+        while (!Decorator->IsDone() && Decorator->GetCurrent()->WhatGenre()!=TargetType)
+        {
+            Decorator->Next();
+        }
+    }
+
+    void Next()
+    {
+        do
+        {
+            Decorator->Next();
+        }
+        while(!Decorator->IsDone()&&Decorator->GetCurrent()->WhatGenre()!= TargetType);
+    }
 };
 #endif
 
