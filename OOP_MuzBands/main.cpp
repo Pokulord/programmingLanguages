@@ -31,5 +31,13 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
     wcout << L"Привет!!" ;
+
+    FContainer first_cont ;
+
+    for (int i=0; i < rand()%900+500; i++)
+    {
+        first_cont.AddBand(Create_new_band(static_cast<Muz_genres>(rand()%4+1)));
+        wcout<< L"Добавил" << endl ;
+    }
     return 0;
 }
