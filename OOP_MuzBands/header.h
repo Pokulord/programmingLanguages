@@ -1,6 +1,7 @@
 #ifndef MUZBANDS_H
 #define MUZBANDS_H
 #include <string>
+#include <vector>
 #include "Decorators.h"
 using namespace std;
 
@@ -23,17 +24,20 @@ enum class Muz_genres : int
 class Default_band {
 protected:
     int foundation_year = 0;
-    string band_name;
+    string band_name = "NoName" ;
 	int albums_count = 0;
 	Muz_genres Genre = Muz_genres::Unknown;
 	Statuses band_status = Statuses::Unknown;
 	int Totally_listens = 0;
-    Default_band()
-    {
-        band_name = "Noname";
-    }
 public:
-	virtual void WhatSBandName() const { cout << L"Название группы :" << band_name; }
+        Default_band()
+    {
+    }
+    string GetBandName() const {return band_name;}
+	void WhatSBandName()
+	{
+	     cout << GetBandName() << endl ;
+    }
 	virtual void ChangeBandName(string new_name)
 	{
 	    band_name = new_name ;
@@ -46,7 +50,7 @@ public:
 	};
 	virtual Muz_genres WhatGenre() const
 	{
-	    return Muz_genres::Unknown ;
+	    return Genre ;
 	};
 	virtual void NoTea() = 0 ;
 
@@ -66,7 +70,6 @@ public:
 	void ShootInHead() const {
 		wcout << L"Ура! Я встречусь с Куртом Кобейном!!!!" << endl;
 	};
-	Muz_genres WhatGenre() { return Muz_genres::Grunge; }
 	void NoTea() {} ;
 };
 
@@ -90,6 +93,10 @@ public:
 	void GetDrunk() {
 		wcout << L"Все металлисты пьют. Конечно же, чай с лимончиком!" << endl;
 	};
+
+    Muz_genres WhatGenre() const {return Muz_genres::Metal;}
+
+
 
 };
 
@@ -158,6 +165,42 @@ public:
 };
 
 
+
+class VContainerIterator : public Iterator<BandPtr>
+{
+private:
+	const vector <BandPtr> *BandVCont;
+	vector <BandPtr>::const_iterator Iterator;
+
+public:
+	void First(){Iterator = BandVCont->begin();}
+	void Next() {Iterator++;}
+	bool IsDone() const {return Iterator == BandVCont->end();}
+	BandPtr GetCurrent() const { return *Iterator; }
+    VContainerIterator(const vector<BandPtr> *BandVCont)
+    {
+		BandVCont = BandVCont;
+		Iterator = BandVCont->begin();
+	}
+};
+
+
+
+class VContainer
+{
+private:
+    vector<BandPtr> BandVCont;
+
+public:
+    void AddBand(BandPtr NewFlower) {BandVCont.push_back(NewFlower);}
+    int GetCount() const {return BandVCont.size();}
+    BandPtr GetByIndex(int index) {return BandVCont[index];}
+
+   Iterator<BandPtr> *GetIterator()
+    {
+        return new VContainerIterator(&BandVCont);
+    };
+};
 class BandTypeDecorator : public IteratorDecorator<BandPtr>
 {
 private:
@@ -171,7 +214,7 @@ public:
     void First()
     {
         Decorator->First();
-        while (!Decorator->IsDone() && Decorator->GetCurrent()->WhatGenre()!=TargetType)
+        while (!Decorator->IsDone()&& Decorator->GetCurrent()->WhatGenre()!=TargetType)
         {
             Decorator->Next();
         }
