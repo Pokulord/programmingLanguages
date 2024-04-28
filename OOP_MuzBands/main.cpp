@@ -10,7 +10,7 @@ wstring PrintBandGenre( const Muz_genres Genre)
     switch(Genre)
     {
         case Muz_genres::Grunge: return L"Жанр Grunge";
-        case Muz_genres::Metal: return L"Metal";
+        case Muz_genres::Metal: return L"Жанр Metal";
         case Muz_genres::Post_Punk: return L"Жанр Post-punk";
         case Muz_genres::Electronic: return L"Жанр Electronic";
         default: return L"Неизвестный науке жанр" ;
@@ -38,14 +38,17 @@ Default_band *Create_new_band(Muz_genres Genre)
 // Задача 1. Запретить всем металлистам пить чай
 void Task_1_no_more_tea(Iterator<BandPtr> *Iterator)
 {
+    int no_tea_counter = 0 ;
     for (Iterator->First(); !Iterator->IsDone() ; Iterator->Next())
     {
         const BandPtr CurBand = Iterator->GetCurrent();
         CurBand->NoTea();
+        no_tea_counter++;
 
     }
 
     wcout << L"Отныне металлисты не пьют ничего - в том числе, чай" << endl ;
+    wcout << L"Чая лишены " << no_tea_counter << L" группы/групп" << endl ;
 
 }
 
@@ -66,16 +69,21 @@ int main()
 
     VContainer first_cont ;
     FContainer second_cont ;
-    Metal_band gb1 ;
 
     for (int i=0; i < rand()%400+501; i++)
     {
         first_cont.AddBand(Create_new_band(static_cast<Muz_genres>(rand()%(3)+1)));
     }
+
+
+    for (int i=0; i < rand()%400+501; i++)
+    {
+        second_cont.AddBand(Create_new_band(static_cast<Muz_genres>(rand()%(3)+1)));
+    }
     wcout << L"В списке: " << first_cont.GetCount() << L" элемента/элементов" << endl ;
 
-//    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Metal);
-//    Task_1_no_more_tea(Iterator);
-    Task1(&first_cont);
+    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Metal);
+    Task_1_no_more_tea(Iterator);
+//    Task1(&first_cont);
     return 0;
 }
