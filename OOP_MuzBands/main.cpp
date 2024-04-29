@@ -134,8 +134,8 @@ int main()
 ////    Task1(&first_cont);
 //    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Grunge);
 //    Do_more_popular_all_grunge_bands(Iterator);
-    // Для восстановления активных групп
-    Iterator<BandPtr> *Iterator = new BandStatusDecorator(second_cont.GetIterator(), Statuses::Not_Active);
+    // Для восстановления активных групп, которые играют атмосферно
+    Iterator<BandPtr> *Iterator = new AtmosphericDecorator( new BandStatusDecorator(second_cont.GetIterator(), Statuses::Not_Active), true);
     MakeActive(Iterator) ;
 
     return 0;

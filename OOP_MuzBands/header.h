@@ -29,6 +29,7 @@ protected:
 	Muz_genres Genre = Muz_genres::Unknown;
 	Statuses band_status = static_cast<Statuses>(rand()%(4)+1);
 	int Totally_listens = 0;
+	bool IsThatAtmospheric = (rand() % 100)/2 ;
 public:
         Default_band()
     {
@@ -56,7 +57,19 @@ public:
 	void Add_listeners (int howmany_listeners)
 	{
 	    Totally_listens= Totally_listens + howmany_listeners ;
-	}
+	};
+
+	bool IsThisAtmos()
+	{
+	    if (IsThatAtmospheric)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	};
 
 };
 
@@ -262,6 +275,36 @@ public:
             Decorator->Next();
         }
         while(!Decorator->IsDone()&&Decorator->GetCurrent()->GetBandStatus()!= StatusType);
+    }
+};
+
+
+class AtmosphericDecorator : public IteratorDecorator<BandPtr>
+{
+private:
+    bool IsAtmos;
+public:
+    AtmosphericDecorator(Iterator<BandPtr> *Iterator, bool isAtmos) : IteratorDecorator(Iterator)
+    {
+        IsAtmos = isAtmos;
+    }
+
+    void First()
+    {
+        Decorator->First();
+        while (!Decorator->IsDone()&& Decorator->GetCurrent()->IsThisAtmos()!=IsAtmos)
+        {
+            Decorator->Next();
+        }
+    }
+
+    void Next()
+    {
+        do
+        {
+            Decorator->Next();
+        }
+        while(!Decorator->IsDone()&&Decorator->GetCurrent()->IsThisAtmos()!= IsAtmos);
     }
 };
 #endif
