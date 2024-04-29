@@ -9,7 +9,7 @@ enum class Statuses : int {
 	Active = 1,
 	Paused = 2,
 	Not_Active = 3,
-	Unknown = 4
+	Unknown = 0
 };
 enum class Muz_genres : int
 {
@@ -27,7 +27,7 @@ protected:
     string band_name = "NoName" ;
 	int albums_count = 0;
 	Muz_genres Genre = Muz_genres::Unknown;
-	Statuses band_status = Statuses::Unknown;
+	Statuses band_status = static_cast<Statuses>(rand()%(4)+1);
 	int Totally_listens = 0;
 public:
         Default_band()
@@ -44,15 +44,19 @@ public:
 	};
 	virtual Statuses GetBandStatus() const { return band_status; }
 	virtual void PlaySong() const = 0;
-	virtual void ChangeGenre(Muz_genres new_genre)
+	virtual void ChangeStatus(Statuses new_status)
 	{
-	    Genre = new_genre ;
+	    band_status = new_status ;
 	};
 	virtual Muz_genres WhatGenre() const
 	{
-	    return Genre ;
+	    return Genre;
 	};
 	virtual void NoTea() = 0 ;
+	void Add_listeners (int howmany_listeners)
+	{
+	    Totally_listens= Totally_listens + howmany_listeners ;
+	}
 
 };
 
@@ -62,6 +66,7 @@ typedef Default_band *BandPtr ;
 // Группа, которая выступает в стиле Grunge
 class Grunge_band : public Default_band {
 protected:
+   string band_name = "Something Grunge Group" ;
 public:
     Grunge_band() : Default_band() {Genre = Muz_genres::Grunge ;};
 	void PlaySong() const override {
@@ -227,6 +232,36 @@ public:
             Decorator->Next();
         }
         while(!Decorator->IsDone()&&Decorator->GetCurrent()->WhatGenre()!= TargetType);
+    }
+};
+
+
+class BandStatusDecorator : public IteratorDecorator<BandPtr>
+{
+private:
+    Statuses StatusType;
+public:
+    BandStatusDecorator(Iterator<BandPtr> *Iterator, Statuses statustype) : IteratorDecorator(Iterator)
+    {
+        StatusType = statustype ;
+    }
+
+    void First()
+    {
+        Decorator->First();
+        while (!Decorator->IsDone()&& Decorator->GetCurrent()->GetBandStatus()!=StatusType)
+        {
+            Decorator->Next();
+        }
+    }
+
+    void Next()
+    {
+        do
+        {
+            Decorator->Next();
+        }
+        while(!Decorator->IsDone()&&Decorator->GetCurrent()->GetBandStatus()!= StatusType);
     }
 };
 #endif

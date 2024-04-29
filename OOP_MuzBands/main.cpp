@@ -5,6 +5,17 @@
 using namespace std;
 
 
+wstring PrintBandStatus (const Statuses Status)
+{
+    switch(Status)
+    {
+        case Statuses::Active : return L"Активна" ;
+        case Statuses::Paused : return L"Деятельность приостановлена" ;
+        case Statuses::Not_Active : return L"Неактивна" ;
+        default : return L"Незвестно" ;
+    }
+}
+
 wstring PrintBandGenre( const Muz_genres Genre)
 {
     switch(Genre)
@@ -44,6 +55,7 @@ void Task_1_no_more_tea(Iterator<BandPtr> *Iterator)
         const BandPtr CurBand = Iterator->GetCurrent();
         CurBand->NoTea();
         no_tea_counter++;
+        wcout << PrintBandGenre(CurBand->WhatGenre()) << endl ;
 
     }
 
@@ -52,6 +64,40 @@ void Task_1_no_more_tea(Iterator<BandPtr> *Iterator)
 
 }
 
+// Задача 2. Увеличить популярность групп, которые выступают в жанре Grunge
+void Do_more_popular_all_grunge_bands(Iterator<BandPtr> *Iterator)
+{
+    wcout << L"Астрологи объявили неделю гранжа" << endl ;
+    for (Iterator->First(); !Iterator->IsDone() ; Iterator->Next())
+    {
+        int how_many_poplular = rand() % (100-50 + 1) + 50 ;
+        const BandPtr CurBand = Iterator->GetCurrent();
+        CurBand->Add_listeners(how_many_poplular);
+        wcout << L"Количество прослушиваний группы в жанре : ";
+        wcout << PrintBandGenre(CurBand->WhatGenre()) ;
+        wcout << L"  Увеличено на " << how_many_poplular << endl ;
+        how_many_poplular = 0 ;
+
+
+    }
+}
+
+// Задача 2 - Сделать группы активными
+
+void MakeActive(Iterator<BandPtr> *Iterator)
+{
+    wcout << L"Правительство решило поддержать все неактивные группы. Их деятельность возобновлена!!!" << endl ;
+    int how_many = 0 ;
+    for (Iterator->First(); !Iterator->IsDone() ; Iterator->Next())
+    {
+        const BandPtr CurBand = Iterator->GetCurrent();
+        CurBand->ChangeStatus(Statuses::Active);
+        how_many++ ;
+
+
+    }
+    wcout << how_many << L" групп теперь активны." << endl ;
+}
 
 void Task1(VContainer *bandbox)
 {
@@ -82,8 +128,15 @@ int main()
     }
     wcout << L"В списке: " << first_cont.GetCount() << L" элемента/элементов" << endl ;
 
-    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Metal);
-    Task_1_no_more_tea(Iterator);
-//    Task1(&first_cont);
+    // Для металлистов
+//    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Metal);
+//    Task_1_no_more_tea(Iterator);
+////    Task1(&first_cont);
+//    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Grunge);
+//    Do_more_popular_all_grunge_bands(Iterator);
+    // Для восстановления активных групп
+    Iterator<BandPtr> *Iterator = new BandStatusDecorator(second_cont.GetIterator(), Statuses::Not_Active);
+    MakeActive(Iterator) ;
+
     return 0;
 }
