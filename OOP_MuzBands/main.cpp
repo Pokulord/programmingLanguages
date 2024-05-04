@@ -1,7 +1,9 @@
 #include <sstream>
 #include <iostream>
 #include <list>
+#include "sqlite3.h"
 #include "header.h"
+#include "db_funcs.h"
 using namespace std;
 
 

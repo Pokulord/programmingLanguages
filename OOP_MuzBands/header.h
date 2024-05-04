@@ -70,6 +70,7 @@ public:
             return false;
         }
 	};
+	int how_many_listeners() const {return Totally_listens ;}
 
 };
 
@@ -159,7 +160,7 @@ public:
 class Container
 {
 public:
-    virtual void AddBand (BandPtr NewBand) = 0 ;
+    virtual void AddBand (BandPtr ) = 0 ;
     virtual int GetCount() const = 0 ;
     virtual Iterator<BandPtr> *GetIterator() = 0;
 };
@@ -210,7 +211,7 @@ private:
     vector<BandPtr> BandVCont;
 
 public:
-    void AddBand(BandPtr NewFlower) {BandVCont.push_back(NewFlower);}
+    void AddBand(BandPtr New_Band) {BandVCont.push_back(New_Band);}
     int GetCount() const {return BandVCont.size();}
     BandPtr GetByIndex(int index) {return BandVCont[index];}
 
@@ -219,6 +220,43 @@ public:
         return new VContainerIterator(&BandVCont);
     };
 };
+
+
+// Для работы с БД
+class DataBaseBandstIterator : public Iterator<BandPtr>
+{
+private:
+	sqlite3* MuzBands;
+	int position = 1;
+public:
+	DataBaseBandstIterator(sqlite3* muzBands) { MuzBands = muzBands; }
+	void First() { position = 1; }
+	void Next() { position++; }
+	bool IsDone() const;
+	BandPtr GetCurrent() const;
+};
+
+
+
+class Bands_DB_container
+{
+private:
+	sqlite3* MuzBands;
+
+public:
+	void AddBand(BandPtr new_band);
+	int GetCount() const;
+	Bands_DB_container();
+	~Bands_DB_container();
+
+	Iterator<BandPtr>* GetIterator()
+	{
+		return new DataBaseBandstIterator(MuzBands);
+	};
+};
+
+
+
 class BandTypeDecorator : public IteratorDecorator<BandPtr>
 {
 private:
