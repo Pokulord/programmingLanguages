@@ -137,8 +137,15 @@ int main()
 //    Iterator<BandPtr> *Iterator = new BandTypeDecorator(second_cont.GetIterator(), Muz_genres::Grunge);
 //    Do_more_popular_all_grunge_bands(Iterator);
     // Для восстановления активных групп, которые играют атмосферно
-    Iterator<BandPtr> *Iterator = new AtmosphericDecorator( new BandStatusDecorator(second_cont.GetIterator(), Statuses::Not_Active), true);
-    MakeActive(Iterator) ;
+//    Iterator<BandPtr> *Iterator = new AtmosphericDecorator( new BandStatusDecorator(second_cont.GetIterator(), Statuses::Not_Active), true);
+//    MakeActive(Iterator) ;
+
+    Bands_DB_container DB_cont ;
+
+    for (int i = 0; i < 40; i++)
+    {
+        DB_cont.AddBand(Create_new_band(Muz_genres::Grunge));
+    }
 
     return 0;
 }

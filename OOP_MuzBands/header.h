@@ -24,7 +24,7 @@ enum class Muz_genres : int
 class Default_band {
 protected:
     int foundation_year = 0;
-    string band_name = "NoName" ;
+    string band_name = "NoNameeeee" ;
 	int albums_count = 0;
 	Muz_genres Genre = Muz_genres::Unknown;
 	Statuses band_status = static_cast<Statuses>(rand()%(4)+1);
@@ -80,7 +80,7 @@ typedef Default_band *BandPtr ;
 // Группа, которая выступает в стиле Grunge
 class Grunge_band : public Default_band {
 protected:
-   string band_name = "Something Grunge Group" ;
+   string band_name = "SomethingGrungeGroup" ;
 public:
     Grunge_band() : Default_band() {Genre = Muz_genres::Grunge ;};
 	void PlaySong() const override {
