@@ -205,7 +205,7 @@ public:
 
 
 
-class VContainer
+class VContainer : public Container
 {
 private:
     vector<BandPtr> BandVCont;
@@ -238,7 +238,7 @@ public:
 
 
 
-class Bands_DB_container
+class Bands_DB_container : public Container
 {
 private:
 	sqlite3* MuzBands;
