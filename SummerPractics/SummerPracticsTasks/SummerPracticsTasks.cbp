@@ -32,7 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="1 task.cpp" />
+		<Unit filename="task 2.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
