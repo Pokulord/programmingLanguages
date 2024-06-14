@@ -44,8 +44,4 @@ int main()
     double diagonal_with_sqtr = sqrt_newton(diagonal_withno_sqtr) ;
     wcout << L"Длина диагонали : " << diagonal_with_sqtr << endl ;
     return 0;
-
-
-
-
 }
